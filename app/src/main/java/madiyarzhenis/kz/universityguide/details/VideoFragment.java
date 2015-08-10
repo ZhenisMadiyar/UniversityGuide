@@ -16,52 +16,85 @@
 
 package madiyarzhenis.kz.universityguide.details;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 import madiyarzhenis.kz.universityguide.FlexibleSpaceWithImageBaseFragment;
 import madiyarzhenis.kz.universityguide.FlexibleSpaceWithImageWithViewPagerTabActivity;
 import madiyarzhenis.kz.universityguide.R;
+import madiyarzhenis.kz.universityguide.details.adapter_video.BaseInflaterAdapterVideo;
+import madiyarzhenis.kz.universityguide.details.adapter_video.CardItemDataVideo;
+import madiyarzhenis.kz.universityguide.details.adapter_video.inflaters.CardInflaterVideo;
 
-public class VideoFragment extends FlexibleSpaceWithImageBaseFragment<ObservableRecyclerView> {
+public class VideoFragment extends FlexibleSpaceWithImageBaseFragment<ObservableListView> {
 
+    AdapterFaculty adapterFacultyList;
+    String[] facultyName = {"Video-A", "Video-B", "Video-C", "Video-D", "Video-A", "Video-B", "Video-C", "Video-D"};
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_gallery, container, false);
 
-        final ObservableRecyclerView recyclerView = (ObservableRecyclerView) view.findViewById(R.id.scroll);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setHasFixedSize(false);
-        final View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.recycler_header, null);
+        final ObservableListView listView = (ObservableListView) view.findViewById(R.id.scroll);
+        // Set padding view for ListView. This is the flexible space.
+        View paddingView = new View(getActivity());
         final int flexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
-        headerView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, flexibleSpaceImageHeight));
-        setDummyDataWithHeader(recyclerView, headerView);
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
+                flexibleSpaceImageHeight);
+        paddingView.setLayoutParams(lp);
+
+        BaseInflaterAdapterVideo<CardItemDataVideo> adapter = new BaseInflaterAdapterVideo<CardItemDataVideo>(new CardInflaterVideo());
+
+        // This is required to disable header's list selector effect
+        paddingView.setClickable(true);
+
+//        View vi1 = new View(getActivity());
+//        AbsListView.LayoutParams layParams = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
+//                25);
+//        vi1.setLayoutParams(layParams);
+        listView.addHeaderView(paddingView);
+        listView.addHeaderView(new View(getActivity()));
+        listView.addFooterView(new View(getActivity()));
+        for (int i = 0; i < 8; i++) {
+            CardItemDataVideo data = new CardItemDataVideo(facultyName[i]);
+            adapter.addItem(data, false);
+        }
+
+//        setDummyData(listView);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
         // TouchInterceptionViewGroup should be a parent view other than ViewPager.
         // This is a workaround for the issue #117:
         // https://github.com/ksoichiro/Android-ObservableScrollView/issues/117
-        recyclerView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
+        listView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
 
         // Scroll to the specified offset after layout
         Bundle args = getArguments();
         if (args != null && args.containsKey(ARG_SCROLL_Y)) {
             final int scrollY = args.getInt(ARG_SCROLL_Y, 0);
-            ScrollUtils.addOnGlobalLayoutListener(recyclerView, new Runnable() {
+            ScrollUtils.addOnGlobalLayoutListener(listView, new Runnable() {
+                @SuppressLint("NewApi")
                 @Override
                 public void run() {
                     int offset = scrollY % flexibleSpaceImageHeight;
-                    RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
-                    if (lm != null && lm instanceof LinearLayoutManager) {
-                        ((LinearLayoutManager) lm).scrollToPositionWithOffset(0, -offset);
-                    }
+                    listView.setSelectionFromTop(0, -offset);
                 }
             });
             updateFlexibleSpace(scrollY, view);
@@ -69,22 +102,25 @@ public class VideoFragment extends FlexibleSpaceWithImageBaseFragment<Observable
             updateFlexibleSpace(0, view);
         }
 
-        recyclerView.setScrollViewCallbacks(this);
+        listView.setScrollViewCallbacks(this);
+
+        updateFlexibleSpace(0, view);
 
         return view;
     }
 
+    @SuppressWarnings("NewApi")
     @Override
     public void setScrollY(int scrollY, int threshold) {
         View view = getView();
         if (view == null) {
             return;
         }
-        ObservableRecyclerView recyclerView = (ObservableRecyclerView) view.findViewById(R.id.scroll);
-        if (recyclerView == null) {
+        ObservableListView listView = (ObservableListView) view.findViewById(R.id.scroll);
+        if (listView == null) {
             return;
         }
-        View firstVisibleChild = recyclerView.getChildAt(0);
+        View firstVisibleChild = listView.getChildAt(0);
         if (firstVisibleChild != null) {
             int offset = scrollY;
             int position = 0;
@@ -93,10 +129,7 @@ public class VideoFragment extends FlexibleSpaceWithImageBaseFragment<Observable
                 position = scrollY / baseHeight;
                 offset = scrollY % baseHeight;
             }
-            RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
-            if (lm != null && lm instanceof LinearLayoutManager) {
-                ((LinearLayoutManager) lm).scrollToPositionWithOffset(position, -offset);
-            }
+            listView.setSelectionFromTop(position, -offset);
         }
     }
 
@@ -104,16 +137,62 @@ public class VideoFragment extends FlexibleSpaceWithImageBaseFragment<Observable
     protected void updateFlexibleSpace(int scrollY, View view) {
         int flexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
 
-        View recyclerViewBackground = view.findViewById(R.id.list_background);
+        View listBackgroundView = view.findViewById(R.id.list_background);
 
         // Translate list background
-        ViewHelper.setTranslationY(recyclerViewBackground, Math.max(0, -scrollY + flexibleSpaceImageHeight));
+        ViewHelper.setTranslationY(listBackgroundView, Math.max(0, -scrollY + flexibleSpaceImageHeight));
 
         // Also pass this event to parent Activity
         FlexibleSpaceWithImageWithViewPagerTabActivity parentActivity =
                 (FlexibleSpaceWithImageWithViewPagerTabActivity) getActivity();
         if (parentActivity != null) {
-            parentActivity.onScrollChanged(scrollY, (ObservableRecyclerView) view.findViewById(R.id.scroll));
+            parentActivity.onScrollChanged(scrollY, (ObservableListView) view.findViewById(R.id.scroll));
+        }
+    }
+
+    private class AdapterFaculty extends BaseAdapter{
+        Activity activity;
+        String[] facultyName;
+        LayoutInflater inflater;
+        public AdapterFaculty(Activity activity, String[] facultyName) {
+            this.activity = activity;
+            this.facultyName = facultyName;
+            inflater = LayoutInflater.from(activity);
+        }
+
+        @Override
+        public int getCount() {
+            return facultyName.length;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return facultyName[i];
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder view;
+            if (convertView == null) {
+                view = new ViewHolder();
+                convertView = inflater.inflate(R.layout.item_faculty_list, null);
+                view.name = (TextView) convertView.findViewById(R.id.textViewFacultyName);
+                convertView.setTag(view);
+            } else {
+                view = (ViewHolder) convertView.getTag();
+            }
+            view.name.setText(facultyName[position]);
+            return convertView;
+        }
+
+        public class ViewHolder {
+            public TextView name;
         }
     }
 }

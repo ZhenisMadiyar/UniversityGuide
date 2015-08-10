@@ -8,12 +8,18 @@
         android:id="@+id/list_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white" />
+        android:background="@android:color/darker_gray" />
 
-    <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
-            android:id="@+id/scroll"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:scrollbars="none" />
+    <com.github.ksoichiro.android.observablescrollview.ObservableListView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:headerDividersEnabled="true"
+        android:footerDividersEnabled="true"
+        android:listSelector="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@null"
+        android:dividerHeight="10dp" />
 </FrameLayout>
 <!-- From: file:/D:/My%20Projects%231/Android-ObservableScrollView-master/app/src/main/res/layout/fragment_video_gallery.xml -->

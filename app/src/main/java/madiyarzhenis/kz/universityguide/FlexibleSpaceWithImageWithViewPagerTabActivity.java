@@ -265,7 +265,7 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
                     break;
                 }
                 case 3: {
-                    f = new AboutUniversity();
+                    f = new PhotoGallery();
                     break;
                 }
                 case 4: {
@@ -273,7 +273,7 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
                     break;
                 }
                 case 5: {
-                    f = new VideoFragment();
+                    f = new PhotoGallery();
                     break;
                 }
                 case 6: {

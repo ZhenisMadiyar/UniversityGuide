@@ -18,12 +18,15 @@ package madiyarzhenis.kz.universityguide.details;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableGridView;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
@@ -35,6 +38,9 @@ import madiyarzhenis.kz.universityguide.R;
 
 public class PhotoGallery extends FlexibleSpaceWithImageBaseFragment<ObservableGridView> {
 
+    int images[] = {R.drawable.ic_launcher, R.drawable.icon_qazaq, R.drawable.icon_qazaq, R.drawable.icon_qazaq
+            , R.drawable.icon_qazaq, R.drawable.icon_qazaq, R.drawable.icon_qazaq, R.drawable.icon_qazaq};
+    AdapterPhotoGallery adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
@@ -51,7 +57,10 @@ public class PhotoGallery extends FlexibleSpaceWithImageBaseFragment<ObservableG
         paddingView.setClickable(true);
 
         gridView.addHeaderView(paddingView);
-        setDummyData(gridView);
+
+        adapter = new AdapterPhotoGallery(getActivity(), images);
+        gridView.setAdapter(adapter);
+//        setDummyData(gridView);
         // TouchInterceptionViewGroup should be a parent view other than ViewPager.
         // This is a workaround for the issue #117:
         // https://github.com/ksoichiro/Android-ObservableScrollView/issues/117
@@ -136,4 +145,51 @@ public class PhotoGallery extends FlexibleSpaceWithImageBaseFragment<ObservableG
             gridView.smoothScrollToPositionFromTop(position, offset, 0);
         }
     }
+
+    private class AdapterPhotoGallery extends BaseAdapter {
+        Activity activity;
+        int[] photos;
+        LayoutInflater inflater;
+        public AdapterPhotoGallery(Activity activity, int[] photos) {
+            this.activity = activity;
+            this.photos = photos;
+            inflater = LayoutInflater.from(activity);
+        }
+
+        @Override
+        public int getCount() {
+            return photos.length;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return photos[i];
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder view;
+            if (convertView == null) {
+                view = new ViewHolder();
+                convertView = inflater.inflate(R.layout.item_photo_gallery, null);
+                view.name = (ImageView) convertView.findViewById(R.id.imageViewPhoto);
+                convertView.setTag(view);
+            } else {
+                view = (ViewHolder) convertView.getTag();
+            }
+            view.name.setBackgroundResource(photos[position]);
+            return convertView;
+        }
+
+        public class ViewHolder {
+            public ImageView name;
+        }
+    }
+
 }
