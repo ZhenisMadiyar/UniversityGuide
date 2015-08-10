@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="200dp"
+	android:paddingLeft="15dp"
+	android:paddingRight="15dp"
+	android:descendantFocusability="beforeDescendants">
+
+	<RelativeLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="200dp"
+		android:paddingLeft="15dp"
+		android:paddingTop="15dp"
+		android:paddingBottom="15dp"
+		android:paddingRight="15dp"
+		android:background="@drawable/selector_card_background"
+		android:descendantFocusability="afterDescendants">
+
+		<TextView
+			android:id="@+id/text1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Text line 1"
+			android:layout_alignParentBottom="true"
+			android:layout_centerHorizontal="true" />
+
+		<TextView
+			android:id="@+id/text2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Text line 2"
+			android:layout_below="@+id/imageView"
+			android:layout_centerHorizontal="true" />
+
+		<TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Text line 3"
+            android:layout_gravity="left|bottom"
+			android:visibility="invisible"
+			android:layout_above="@+id/text1"
+			android:layout_toLeftOf="@+id/text1"
+			android:layout_toStartOf="@+id/text1" />
+
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/imageView"
+			android:src="@drawable/icon_qazaq"
+			android:layout_above="@+id/text3"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentEnd="true" />
+
+	</RelativeLayout>
+
+</FrameLayout>

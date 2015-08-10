@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UniversityGuide</string>
+    <string name="dormitory">Dormitory</string>
+    <string name="facultet">Faculty</string>
+    <string name="language">Language</string>
+    <string name="list_univer">LIST of UNIVERSITY</string>
+    <string name="o_nas">About us</string>
+    <string name="photo_gallery">Photo Gallery</string>
+    <string name="price">Price</string>
+    <string name="reception">Reception</string>
+    <string name="students">Student</string>
+    <string name="test">Test</string>
+    <string name="video_gallery">Video Gallery</string>
+</resources>

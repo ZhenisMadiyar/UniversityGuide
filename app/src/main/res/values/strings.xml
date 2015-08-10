@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">UniversityGuide</string>
+
+    <string name="hello_world" translatable="false">Сәлем</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="language">Тіл</string>
+    <string name="test">Тест</string>
+    <string name="lipsum" translatable="false">Lorem ipsum dolor sit amet, ut duis lorem provident sed felis blandit, condimentum donec </string>
+
+    <string name="o_nas">Біз туралы</string>
+    <string name="facultet">Факультеттер</string>
+    <string name="students">Студенттерге</string>
+    <string name="reception">Қабылдау комиссиясы</string>
+    <string name="dormitory">Жатақхана</string>
+    <string name="video_gallery">Видео Галерея</string>
+    <string name="photo_gallery">Фото галерея</string>
+    <string name="price">Оқу ақысы</string>
+    <string name="list_univer">Университеттер тізімі</string>
+</resources>

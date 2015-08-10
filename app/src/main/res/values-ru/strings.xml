@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UniversityGuide</string>
+    <string name="dormitory">Общежития</string>
+    <string name="facultet">Факультеты</string>
+    <string name="language">Язык</string>
+    <string name="list_univer">Список универсиетов</string>
+    <string name="o_nas">Про нас</string>
+    <string name="photo_gallery">Фото галерея</string>
+    <string name="video_gallery">Видео галерея</string>
+    <string name="price">Стоимость обучение</string>
+    <string name="reception">Комисся</string>
+    <string name="students">Студентом</string>
+    <string name="test">Тест</string>
+</resources>
