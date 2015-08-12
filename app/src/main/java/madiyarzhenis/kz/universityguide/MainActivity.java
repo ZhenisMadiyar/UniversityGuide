@@ -7,6 +7,8 @@ import android.view.View;
 
 import com.indris.material.RippleView;
 
+import madiyarzhenis.kz.universityguide.city_list.CityActivity;
+
 /**
  * Created by Admin on 14.07.2015.
  */

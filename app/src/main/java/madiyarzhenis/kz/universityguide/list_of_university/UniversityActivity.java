@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import madiyarzhenis.kz.universityguide.FlexibleSpaceWithImageWithViewPagerTabActivity;
+import madiyarzhenis.kz.universityguide.information.details.FlexibleSpaceWithImageWithViewPagerTabActivity;
 import madiyarzhenis.kz.universityguide.R;
 import madiyarzhenis.kz.universityguide.list_of_university.adapters.BaseInflaterAdapter;
 import madiyarzhenis.kz.universityguide.list_of_university.adapters.CardItemData;

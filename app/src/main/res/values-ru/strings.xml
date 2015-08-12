@@ -12,4 +12,7 @@
     <string name="reception">Комисся</string>
     <string name="students">Студентом</string>
     <string name="test">Тест</string>
+    <string name="application_id">w7phYAryYwYNixCTU8sATXyHVIaLyvNoyc7ZDEEB</string>
+    <string name="master_key">GoPbj7GXTcHl69eyiZnHNiaJ77d3sOFSHvOCaIta</string>
+    <string name="client_key">QEFOHNpu53Tb9ikpyYZe2elxxpBm20Xtak0LtFg8</string>
 </resources>

@@ -30,6 +30,9 @@ import com.github.ksoichiro.android.observablescrollview.ObservableGridView;
 
 import java.util.ArrayList;
 
+import madiyarzhenis.kz.universityguide.information.details.SimpleHeaderRecyclerAdapter;
+import madiyarzhenis.kz.universityguide.information.details.SimpleRecyclerAdapter;
+
 public abstract class BaseFragment extends Fragment {
     public static ArrayList<String> getDummyData() {
         return BaseActivity.getDummyData();

@@ -261,12 +261,15 @@
     <eat-comment/>
     <string name="action_settings" translatable="false">Settings</string>
     <string name="app_name">UniversityGuide</string>
+    <string name="application_id">QdfEC6EuKbvEgHNsRTR1Zp0DXsJ4FsqxPtARwbMC</string>
+    <string name="client_key">lteis1LSm2swhUpJHJUmaqdytHLCY5vwLsnajMbG</string>
     <string name="dormitory">Жатақхана</string>
     <string name="facultet">Факультеттер</string>
     <string name="hello_world" translatable="false">Сәлем</string>
     <string name="language">Тіл</string>
     <string name="lipsum" translatable="false">Lorem ipsum dolor sit amet, ut duis lorem provident sed felis blandit, condimentum donec </string>
     <string name="list_univer">Университеттер тізімі</string>
+    <string name="master_key">gwCkarKctb190t45tIbj0QGnZ1LOqJoxdH5VOh6j</string>
     <string name="o_nas">Біз туралы</string>
     <string name="photo_gallery">Фото галерея</string>
     <string name="price">Оқу ақысы</string>

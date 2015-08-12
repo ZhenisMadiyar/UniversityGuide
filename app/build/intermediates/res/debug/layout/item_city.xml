@@ -4,8 +4,8 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_width="400dp"
+        android:layout_height="100dp"
         android:id="@+id/imageViewCityImage"
         android:src="@drawable/ic_launcher"
         android:layout_centerVertical="true"

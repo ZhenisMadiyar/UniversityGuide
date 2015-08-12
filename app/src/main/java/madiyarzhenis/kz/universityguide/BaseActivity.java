@@ -28,6 +28,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import madiyarzhenis.kz.universityguide.information.details.SimpleHeaderRecyclerAdapter;
+import madiyarzhenis.kz.universityguide.information.details.SimpleRecyclerAdapter;
+
 public abstract class BaseActivity extends AppCompatActivity {
     private static final int NUM_OF_ITEMS = 100;
     private static final int NUM_OF_ITEMS_FEW = 3;

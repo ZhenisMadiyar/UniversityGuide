@@ -3,10 +3,13 @@
     <!-- From: file:/D:/My%20Projects%231/Android-ObservableScrollView-master/app/src/main/res/values-en/strings.xml -->
     <eat-comment/>
     <string name="app_name">UniversityGuide</string>
+    <string name="application_id">nNUPQ9NTJgJQFznEK4IS3KQ7H93tm0y7AVkf77mI</string>
+    <string name="client_key">Cgocl4jaNz2aWTEE2S5iyXQrLjYXBRBuLXW7BOYR</string>
     <string name="dormitory">Dormitory</string>
     <string name="facultet">Faculty</string>
     <string name="language">Language</string>
     <string name="list_univer">LIST of UNIVERSITY</string>
+    <string name="master_key">4t6wuMK1MNvhnT7wZn2531Zjm5m2U01KwsnCXV1l</string>
     <string name="o_nas">About us</string>
     <string name="photo_gallery">Photo Gallery</string>
     <string name="price">Price</string>
