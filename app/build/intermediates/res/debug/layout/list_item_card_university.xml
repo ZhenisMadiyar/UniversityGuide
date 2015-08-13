@@ -23,16 +23,19 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Text line 1"
-			android:layout_alignParentBottom="true"
+			android:visibility="invisible"
+			android:layout_marginTop="70dp"
 			android:layout_centerHorizontal="true" />
 
 		<TextView
-			android:id="@+id/text2"
+			android:id="@+id/textName"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Text line 2"
-			android:layout_below="@+id/imageView"
-			android:layout_centerHorizontal="true" />
+			android:textSize="20sp"
+			android:layout_alignBottom="@+id/text1"
+			android:layout_toRightOf="@+id/imageViewUniver"
+			android:layout_toEndOf="@+id/imageViewUniver" />
 
 		<TextView
             android:id="@+id/text3"
@@ -48,11 +51,13 @@
 		<ImageView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:id="@+id/imageView"
+			android:id="@+id/imageViewUniver"
 			android:src="@drawable/icon_qazaq"
-			android:layout_above="@+id/text3"
-			android:layout_alignParentRight="true"
-			android:layout_alignParentEnd="true" />
+			android:layout_centerVertical="true"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentStart="true"
+			android:layout_toLeftOf="@+id/text1"
+			android:layout_toStartOf="@+id/text1" />
 
 	</RelativeLayout>
 

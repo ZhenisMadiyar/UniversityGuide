@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,25 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import madiyarzhenis.kz.universityguide.information.details.FlexibleSpaceWithImageWithViewPagerTabActivity;
+import com.google.gson.Gson;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import madiyarzhenis.kz.universityguide.R;
+import madiyarzhenis.kz.universityguide.city_list.CityActivity;
+import madiyarzhenis.kz.universityguide.information.details.FlexibleSpaceWithImageWithViewPagerTabActivity;
 import madiyarzhenis.kz.universityguide.list_of_university.adapters.BaseInflaterAdapter;
 import madiyarzhenis.kz.universityguide.list_of_university.adapters.CardItemData;
 import madiyarzhenis.kz.universityguide.list_of_university.adapters.inflaters.CardInflater;
+import madiyarzhenis.kz.universityguide.models.University;
 
 /**
  * Created by Zhenis Madiyar on 7/26/2015.
@@ -32,10 +47,14 @@ public class UniversityActivity extends ActionBarActivity {
     ViewPagerAdapter adapterView;
 //    UniversityAdapter adapter;
     TopUniversityAdapter adapterTop;
+    ArrayList<University> arrayList;
 
     String[] top = {"KBTU", "SDU", "KIMEP", "KazGU", "AES"};
     int img[] = {R.drawable.kbtu, R.drawable.kbtu, R.drawable.kbtu, R.drawable.kbtu, R.drawable.kbtu};
     String[] university = {"KazNTU", "SDU", "AGU", "KazGU", "ZhenPI", "SDU", "AGU", "KazGU", "ZhenPI"};
+    HashMap<String, Object> parameter;
+    Gson gson;
+    BaseInflaterAdapter<CardItemData> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,15 +70,47 @@ public class UniversityActivity extends ActionBarActivity {
         listViewUniversity.addHeaderView(new View(this));
         listViewUniversity.addFooterView(new View(this));
 
-        BaseInflaterAdapter<CardItemData> adapter = new BaseInflaterAdapter<CardItemData>(new CardInflater());
 //        adapter = new UniversityAdapter(UniversityActivity.this, university);
-        for (int i = 0; i < 50; i++)
-        {
-            CardItemData data = new CardItemData("Item " + i + " Line 1", "Item " + i + " Line 2", "Item " + i + " Line 3");
-            adapter.addItem(data, false);
-        }
 
-        listViewUniversity.setAdapter(adapter);
+
+        gson = new Gson();
+        parameter = new HashMap<String, Object>();
+        final String objectId = intent.getStringExtra(CityActivity.TAG_OBJECT_ID);
+        parameter.put("city_id", objectId);
+        adapter = new BaseInflaterAdapter<CardItemData>(new CardInflater());
+        ParseCloud.callFunctionInBackground("universities", parameter, new FunctionCallback<Object>() {
+            public void done(Object response, ParseException e) {
+                arrayList = new ArrayList<>();
+                if (e != null) {
+                    Log.i("E", "error");
+                    Log.e("Exception", e.toString());
+                } else {
+                    String json = gson.toJson(response);
+                    if (json.equals("[]")) {
+                        Log.i("json", "null");
+                    } else {
+                        Log.i("JSON_UNIVER", json);
+                    }
+                    try {
+                        JSONArray jsonArray = new JSONArray(json);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            JSONObject estimatedData = jsonObject.getJSONObject("estimatedData");
+                            JSONObject jsonImage = estimatedData.getJSONObject("image");
+                            String imageUrl = jsonImage.getString("url");
+                            String name = estimatedData.getString("name");
+                            String objectUrl = jsonObject.getString("objectId");
+                            Log.i("image, name, object", imageUrl + "," + name + "," + objectUrl);
+                            CardItemData data = new CardItemData(name, objectUrl, imageUrl);
+                            adapter.addItem(data, false);
+                        }
+                        listViewUniversity.setAdapter(adapter);
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
         listViewUniversity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

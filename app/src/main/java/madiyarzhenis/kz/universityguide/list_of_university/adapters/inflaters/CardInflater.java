@@ -3,8 +3,12 @@ package madiyarzhenis.kz.universityguide.list_of_university.adapters.inflaters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import madiyarzhenis.kz.universityguide.MyApplication;
 import madiyarzhenis.kz.universityguide.R;
 import madiyarzhenis.kz.universityguide.list_of_university.adapters.BaseInflaterAdapter;
 import madiyarzhenis.kz.universityguide.list_of_university.adapters.CardItemData;
@@ -43,24 +47,23 @@ public class CardInflater implements IAdapterViewInflater<CardItemData>
 	private class ViewHolder
 	{
 		private View m_rootView;
-		private TextView m_text1;
-		private TextView m_text2;
-		private TextView m_text3;
+		private TextView name;
+		private ImageView imageView;
 
 		public ViewHolder(View rootView)
 		{
 			m_rootView = rootView;
-			m_text1 = (TextView) m_rootView.findViewById(R.id.text1);
-			m_text2 = (TextView) m_rootView.findViewById(R.id.text2);
-			m_text3 = (TextView) m_rootView.findViewById(R.id.text3);
+			name = (TextView) m_rootView.findViewById(R.id.textName);
+			imageView = (ImageView) m_rootView.findViewById(R.id.imageViewUniver);
 			rootView.setTag(this);
 		}
 
-		public void updateDisplay(CardItemData item)
-		{
-			m_text1.setText(item.getText1());
-			m_text2.setText(item.getText2());
-			m_text3.setText(item.getText3());
+		public void updateDisplay(CardItemData item) {
+			name.setText(item.getName());
+			Picasso.with(MyApplication.getAppContext())
+					.load(item.getImageUrl())
+					.into(imageView);
+
 		}
 	}
 }

@@ -45,11 +45,13 @@ public class CityActivity extends ActionBarActivity{
     Gson gson;
     ArrayList<City> arrayList;
     Map<String, Object> parameter;
+    public static String TAG_OBJECT_ID = "objectId";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city);
 
+        arrayList = new ArrayList<>();
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listView = (ListView) findViewById(R.id.listView);
@@ -58,7 +60,7 @@ public class CityActivity extends ActionBarActivity{
         if (isOnline()) {
             ParseCloud.callFunctionInBackground("city", parameter, new FunctionCallback<Object>() {
                 public void done(Object response, ParseException e) {
-                    arrayList = new ArrayList<>();
+                    arrayList.clear();
                     if (e != null) {
                         Log.i("E", "error");
                         Log.e("Exception",e.toString());
@@ -79,7 +81,7 @@ public class CityActivity extends ActionBarActivity{
                                 String name = estimatedData.getString("name");
                                 String objectUrl = jsonObject.getString("objectId");
                                 Log.i("image, name, object", imageUrl+","+name+","+objectUrl);
-                                arrayList.add(new City(name, objectUrl, imageUrl));
+                                arrayList.add(new City(name, imageUrl, objectUrl));
                             }
                             adapter = new CityAdapter(CityActivity.this, arrayList);
                             listView.setAdapter(adapter);
@@ -95,13 +97,14 @@ public class CityActivity extends ActionBarActivity{
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(CityActivity.this, UniversityActivity.class);
                 intent.putExtra("name", cityList[i]);
+                intent.putExtra(TAG_OBJECT_ID, arrayList.get(i).getObjectId());
                 startActivity(intent);
             }
         });
     }
 
     public class CityAdapter extends BaseAdapter{
-        Activity activity;
+        Context activity;
         LayoutInflater inflater;
         ArrayList<City> cityList;
         public CityAdapter(Activity activity, ArrayList<City> cityList) {
@@ -137,6 +140,7 @@ public class CityActivity extends ActionBarActivity{
             } else {
                 view = (ViewHolder) convertView.getTag();
             }
+            Log.i("ImageUrl", cityList.get(position).getImageUrl());
             view.name.setText(cityList.get(position).getName());
             Picasso.with(activity)
                     .load(cityList.get(position).getImageUrl())
