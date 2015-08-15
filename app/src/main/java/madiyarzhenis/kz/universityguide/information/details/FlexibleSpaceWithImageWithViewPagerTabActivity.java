@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,8 +34,16 @@ import android.widget.TextView;
 import com.github.ksoichiro.android.observablescrollview.CacheFragmentStatePagerAdapter;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
+import com.google.gson.Gson;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,30 +84,74 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
     private int mFlexibleSpaceHeight;
     private int mTabHeight;
     ImageView imageView;
+    Map<String, Object> parameter;
+    Gson gson;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flexiblespacewithimagewithviewpagertab);
 
-        mPagerAdapter = new NavigationAdapter(getSupportFragmentManager());
+        Intent intent = getIntent();
         mPager = (ViewPager) findViewById(R.id.pager);
         imageView = (ImageView) findViewById(R.id.image);
-        mPager.setAdapter(mPagerAdapter);
         mFlexibleSpaceHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         mTabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
-        Intent intent = getIntent();
         TextView titleView = (TextView) findViewById(R.id.title);
-        titleView.setText(intent.getStringExtra("nameVUZ"));
+        titleView.setText(intent.getStringExtra("name"));
+        gson = new Gson();
+        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
 
+        parameter = new HashMap<String, Object>();
+        parameter.put("university_id", intent.getStringExtra("objectId"));
+        Log.i("objectId", intent.getStringExtra("objectId"));
+        ParseCloud.callFunctionInBackground("university", parameter, new FunctionCallback<Object>() {
+            public void done(Object response, ParseException e) {
+//                arrayList = new ArrayList<>();
+//                objectIDArray.clear();
+                if (e != null) {
+                    Log.i("E", "error");
+                    Log.e("Exception", e.toString());
+                } else {
+                    String json = gson.toJson(response);
+                    if (json.equals("[]")) {
+                        Log.i("json", "null");
+                        Log.i("json_null", json);
+                    } else {
+                        Log.i("JSON_UNIVERSITY_ABOUT", json);
+                    }
+                    try {
+                        JSONArray jsonArray = new JSONArray(json);
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+                        JSONObject estimatedData = jsonObject.getJSONObject("estimatedData");
+                        JSONObject jsonImage = estimatedData.getJSONObject("image");
+                        String imageUrl = jsonImage.getString("url");
+                        String aboutUs = estimatedData.getString("about_us");
+                        String magistratura = estimatedData.getString("magistratura");
+                        String dormitory = estimatedData.getString("dormitory");
+                        String abiturient = estimatedData.getString("abiturient");
+                        String photo_gallery = estimatedData.getString("photo_gallery");
+                        String video_gallery = estimatedData.getString("video_gallery");
+                        String faculty = estimatedData.getString("faculty");
+                        String map = estimatedData.getString("map");
+                        String phone_number = estimatedData.getString("phone_number");
+                        mPagerAdapter = new NavigationAdapter(getSupportFragmentManager(), aboutUs, abiturient, magistratura, dormitory
+                                , photo_gallery, video_gallery, faculty, map, phone_number);
+                        mPager.setAdapter(mPagerAdapter);
+                        mSlidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
+                        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
+                        mSlidingTabLayout.setDistributeEvenly(true);
+                        mSlidingTabLayout.setViewPager(mPager);
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
 //        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
 //        Bitmap bitmap = drawable.getBitmap();
 //        Log.i("COLOR=", getDominantColor1(bitmap) + "");
 
-        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
-        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
-        mSlidingTabLayout.setDistributeEvenly(true);
-        mSlidingTabLayout.setViewPager(mPager);
 
         // Initialize the first Fragment's state when layout is completed.
         ScrollUtils.addOnGlobalLayoutListener(mSlidingTabLayout, new Runnable() {
@@ -231,15 +284,36 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
      */
     private class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
-        private final String[] TITLES = new String[]{ getString(R.string.o_nas), getString(R.string.facultet),
+        private final String[] TITLES = new String[]{getString(R.string.o_nas), getString(R.string.facultet),
                 getString(R.string.students), getString(R.string.reception),
                 getString(R.string.dormitory), getString(R.string.video_gallery),
                 getString(R.string.photo_gallery), getString(R.string.price)};
 
+        String aboutUs;
+        String abiturient;
+        String magistratura;
+        String dormitory;
+        String photo_gallery;
+        String video_gallery;
+        String faculty;
+        String map;
+        String phone_number;
         private int mScrollY;
 
-        public NavigationAdapter(FragmentManager fm) {
+        public NavigationAdapter(FragmentManager fm, String aboutUs, String abiturient, String magistratura, String dormitory,
+                                 String photo_gallery, String video_gallery, String faculty, String map, String phone_number) {
             super(fm);
+
+            this.aboutUs = aboutUs;
+            this.abiturient = abiturient;
+            this.magistratura = magistratura;
+            this.dormitory = dormitory;
+            this.photo_gallery = photo_gallery;
+            this.video_gallery = video_gallery;
+            this.faculty = faculty;
+            this.map = map;
+            this.phone_number = phone_number;
+            Log.i("ABOUT", aboutUs);
         }
 
         public void setScrollY(int scrollY) {
@@ -252,7 +326,7 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
             final int pattern = position % 4;
             switch (pattern) {
                 case 0: {
-                    f = new AboutUniversity();
+                    f = new AboutUniversity(aboutUs);
                     break;
                 }
                 case 1: {
@@ -276,7 +350,7 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
                     break;
                 }
                 case 6: {
-                    f = new AboutUniversity();
+                    f = new AboutUniversity(aboutUs);
                     break;
                 }
                 case 7:

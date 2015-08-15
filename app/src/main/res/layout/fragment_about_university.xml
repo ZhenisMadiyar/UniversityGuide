@@ -22,6 +22,7 @@
                 android:background="@android:color/transparent" />
 
             <TextView
+                android:id="@+id/textViewAbout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
@@ -29,6 +30,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
+                android:textSize="20sp"
                 android:text="@string/lipsum" />
         </LinearLayout>
     </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>

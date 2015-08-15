@@ -20,24 +20,78 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
+import com.google.gson.Gson;
+
+import java.util.Map;
 
 import madiyarzhenis.kz.universityguide.R;
 
 public class AboutUniversity extends FlexibleSpaceWithImageBaseFragment<ObservableScrollView> {
+    Map<String, Object> parameter;
+    Gson gson;
+    String about_us;
+    TextView textView;
+    public AboutUniversity(String aboutUs) {
+        this.about_us = aboutUs;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_about_university, container, false);
 
         final ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
+        gson = new Gson();
+        textView = (TextView) view.findViewById(R.id.textViewAbout);
+        textView.setText(about_us);
         // TouchInterceptionViewGroup should be a parent view other than ViewPager.
         // This is a workaround for the issue #117:
         // https://github.com/ksoichiro/Android-ObservableScrollView/issues/117
         scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
+//
+//        parameter = new HashMap<String, Object>();
+//        parameter.put("university_id", objectId);
+//        ParseCloud.callFunctionInBackground("university", parameter, new FunctionCallback<Object>() {
+//            public void done(Object response, ParseException e) {
+////                arrayList = new ArrayList<>();
+////                objectIDArray.clear();
+//                if (e != null) {
+//                    Log.i("E", "error");
+//                    Log.e("Exception", e.toString());
+//                } else {
+//                    String json = gson.toJson(response);
+//                    if (json.equals("[]")) {
+//                        Log.i("json", "null");
+//                        Log.i("json_null", json);
+//                    } else {
+//                        Log.i("JSON_UNIVERSITY_ABOUT", json);
+//                    }
+////                    try {
+////                        JSONArray jsonArray = new JSONArray(json);
+////                        for (int i = 0; i < jsonArray.length(); i++) {
+////                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+////                            JSONObject estimatedData = jsonObject.getJSONObject("estimatedData");
+////                            JSONObject jsonImage = estimatedData.getJSONObject("image");
+////                            String imageUrl = jsonImage.getString("url");
+////                            String name = estimatedData.getString("name");
+////                            String objectUrl = jsonObject.getString("objectId");
+////                            Log.i("image, name, object", imageUrl + "," + name + "," + objectUrl);
+////                            data = new CardItemData(name, objectUrl, imageUrl);
+////                            objectIDArray.add(objectUrl);
+////                            nameArray.add(name);
+////                            adapter.addItem(data, false);
+////                        }
+////                        listViewUniversity.setAdapter(adapter);
+////                    } catch (JSONException e1) {
+////                        e1.printStackTrace();
+////                    }
+//                }
+//            }
+//        });
 
         // Scroll to the specified offset after layout
         Bundle args = getArguments();

@@ -55,6 +55,9 @@ public class UniversityActivity extends ActionBarActivity {
     HashMap<String, Object> parameter;
     Gson gson;
     BaseInflaterAdapter<CardItemData> adapter;
+    CardItemData data;
+    ArrayList<String> objectIDArray;
+    ArrayList<String> nameArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +67,8 @@ public class UniversityActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        objectIDArray = new ArrayList<>();
+        nameArray = new ArrayList<>();
         listViewUniversity = (ListView) findViewById(R.id.listViewUniversity);
         listViewTop = (ViewPager) findViewById(R.id.HorizontalListViewTop);
 
@@ -81,6 +86,8 @@ public class UniversityActivity extends ActionBarActivity {
         ParseCloud.callFunctionInBackground("universities", parameter, new FunctionCallback<Object>() {
             public void done(Object response, ParseException e) {
                 arrayList = new ArrayList<>();
+                objectIDArray.clear();
+                nameArray.clear();
                 if (e != null) {
                     Log.i("E", "error");
                     Log.e("Exception", e.toString());
@@ -100,11 +107,15 @@ public class UniversityActivity extends ActionBarActivity {
                             String imageUrl = jsonImage.getString("url");
                             String name = estimatedData.getString("name");
                             String objectUrl = jsonObject.getString("objectId");
-                            Log.i("image, name, object", imageUrl + "," + name + "," + objectUrl);
-                            CardItemData data = new CardItemData(name, objectUrl, imageUrl);
+                            Log.i("image, name, object=", imageUrl + "," + name + "," + objectUrl);
+                            objectIDArray.add(objectUrl);
+                            nameArray.add(name);
+                            data = new CardItemData(name, objectUrl, imageUrl);
                             adapter.addItem(data, false);
                         }
                         listViewUniversity.setAdapter(adapter);
+                        Log.i("SIZE", objectIDArray.size() + "");
+                        Log.i("SIZE_NAME", nameArray.size()+"");
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
@@ -115,7 +126,8 @@ public class UniversityActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent1 = new Intent(UniversityActivity.this, FlexibleSpaceWithImageWithViewPagerTabActivity.class);
-                intent1.putExtra("nameVUZ", university[i]);
+                intent1.putExtra("objectId", objectIDArray.get(i-1));
+                intent1.putExtra("name", nameArray.get(i-1));
                 startActivity(intent1);
             }
         });
