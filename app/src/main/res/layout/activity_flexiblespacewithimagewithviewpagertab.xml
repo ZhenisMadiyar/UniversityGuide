@@ -31,8 +31,10 @@
     <RelativeLayout
         android:id="@+id/gradientImage"
         android:layout_width="fill_parent"
-        android:layout_height="240dp"/>
+        android:layout_height="240dp" />
+
     <LinearLayout
+        android:id="@+id/gradinetLinear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

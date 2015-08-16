@@ -31,8 +31,10 @@ import madiyarzhenis.kz.universityguide.R;
 public class AboutUniversity extends FlexibleSpaceWithImageBaseFragment<ObservableScrollView> {
     String about_us;
     TextView textView;
-    public AboutUniversity(String aboutUs) {
+    int bgColor;
+    public AboutUniversity(String aboutUs, int bgColor) {
         this.about_us = aboutUs;
+        this.bgColor = bgColor;
     }
 
     @Override
@@ -45,6 +47,7 @@ public class AboutUniversity extends FlexibleSpaceWithImageBaseFragment<Observab
         // TouchInterceptionViewGroup should be a parent view other than ViewPager.
         // This is a workaround for the issue #117:
         // https://github.com/ksoichiro/Android-ObservableScrollView/issues/117
+        textView.setBackgroundColor(bgColor);
         scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
         Bundle args = getArguments();
         if (args != null && args.containsKey(ARG_SCROLL_Y)) {

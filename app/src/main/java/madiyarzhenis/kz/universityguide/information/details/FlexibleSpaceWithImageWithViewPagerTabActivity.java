@@ -21,6 +21,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,7 +30,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.CacheFragmentStatePagerAdapter;
@@ -40,11 +44,13 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.michaelevans.colorart.library.ColorArt;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,6 +93,8 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
     ImageView imageView;
     Map<String, Object> parameter;
     Gson gson;
+    FrameLayout frameLayout;
+    RelativeLayout relativeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +108,8 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         TextView titleView = (TextView) findViewById(R.id.title);
         titleView.setText(intent.getStringExtra("name"));
         gson = new Gson();
+        relativeLayout = (RelativeLayout) findViewById(R.id.gradientImage);
+        frameLayout = (FrameLayout) findViewById(R.id.root);
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
 
         parameter = new HashMap<String, Object>();
@@ -126,25 +136,43 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
                         JSONObject estimatedData = jsonObject.getJSONObject("estimatedData");
                         JSONObject jsonImage = estimatedData.getJSONObject("image");
                         String imageUrl = jsonImage.getString("url");
-                        String aboutUs = estimatedData.getString("about_us");
-                        String magistratura = estimatedData.getString("magistratura");
-                        String dormitory = estimatedData.getString("dormitory");
-                        String abiturient = estimatedData.getString("abiturient");
-                        String photo_gallery = estimatedData.getString("photo_gallery");
-                        String video_gallery = estimatedData.getString("video_gallery");
-                        String faculty = estimatedData.getString("faculty");
-                        String map = estimatedData.getString("map");
-                        String phone_number = estimatedData.getString("phone_number");
-                        mPagerAdapter = new NavigationAdapter(getSupportFragmentManager(), aboutUs, abiturient, magistratura, dormitory
-                                , photo_gallery, video_gallery, faculty, map, phone_number);
-                        mPager.setAdapter(mPagerAdapter);
-                        mSlidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
-                        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
-                        mSlidingTabLayout.setDistributeEvenly(true);
-                        mSlidingTabLayout.setViewPager(mPager);
+                        final String aboutUs = estimatedData.getString("about_us");
+                        final String magistratura = estimatedData.getString("magistratura");
+                        final String dormitory = estimatedData.getString("dormitory");
+                        final String abiturient = estimatedData.getString("abiturient");
+                        final String photo_gallery = estimatedData.getString("photo_gallery");
+                        final String video_gallery = estimatedData.getString("video_gallery");
+                        final String faculty = estimatedData.getString("faculty");
+                        final String map = estimatedData.getString("map");
+                        final String phone_number = estimatedData.getString("phone_number");
                         Picasso.with(FlexibleSpaceWithImageWithViewPagerTabActivity.this)
                                 .load(imageUrl)
-                                .into(imageView);
+                                .into(imageView, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                                        Bitmap bitmap = drawable.getBitmap();
+                                        ColorArt colorArt = new ColorArt(bitmap);
+                                        frameLayout.setBackgroundColor(colorArt.getBackgroundColor());
+                                        GradientDrawable gd = new GradientDrawable(
+                                                GradientDrawable.Orientation.TOP_BOTTOM,
+                                                new int[]{0x00000000, colorArt.getBackgroundColor()});
+                                        gd.setCornerRadius(0f);
+//                                        relativeLayout.setBackgroundDrawable(gd);
+                                        mPagerAdapter = new NavigationAdapter(getSupportFragmentManager(), aboutUs, abiturient, magistratura, dormitory
+                                                , photo_gallery, video_gallery, faculty, map, phone_number, colorArt.getBackgroundColor());
+                                        mPager.setAdapter(mPagerAdapter);
+                                        mSlidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
+                                        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
+                                        mSlidingTabLayout.setDistributeEvenly(true);
+                                        mSlidingTabLayout.setViewPager(mPager);
+                                    }
+
+                                    @Override
+                                    public void onError() {
+
+                                    }
+                                });
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
@@ -305,9 +333,9 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         private int mScrollY;
         String[] photoUrls;
         String[] videoIds;
-
+        int bgColor;
         public NavigationAdapter(FragmentManager fm, String aboutUs, String abiturient, String magistratura, String dormitory,
-                                 String photo_gallery, String video_gallery, String faculty, String map, String phone_number) {
+                                 String photo_gallery, String video_gallery, String faculty, String map, String phone_number, int backgroundColor) {
             super(fm);
 
             this.aboutUs = aboutUs;
@@ -318,8 +346,10 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
             this.videoIds = video_gallery.split(",");
             this.faculty = faculty;
             this.map = map;
+            this.bgColor = backgroundColor;
             this.phone_number = phone_number;
             Log.i("ABOUT", aboutUs);
+            Log.i("BGCOLOR", bgColor+"");
         }
 
         public void setScrollY(int scrollY) {
@@ -331,7 +361,7 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
             FlexibleSpaceWithImageBaseFragment f;
             switch (position) {
                 case 0: {//about us
-                    f = new AboutUniversity(aboutUs);
+                    f = new AboutUniversity(aboutUs, bgColor);
                     break;
                 }
                 case 1: {//faculty
