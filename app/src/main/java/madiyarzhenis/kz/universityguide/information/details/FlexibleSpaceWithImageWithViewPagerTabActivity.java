@@ -40,6 +40,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,7 +87,6 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
     ImageView imageView;
     Map<String, Object> parameter;
     Gson gson;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,12 +142,16 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
                         mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
                         mSlidingTabLayout.setDistributeEvenly(true);
                         mSlidingTabLayout.setViewPager(mPager);
+                        Picasso.with(FlexibleSpaceWithImageWithViewPagerTabActivity.this)
+                                .load(imageUrl)
+                                .into(imageView);
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
                 }
             }
         });
+
 //        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
 //        Bitmap bitmap = drawable.getBitmap();
 //        Log.i("COLOR=", getDominantColor1(bitmap) + "");
@@ -285,7 +289,7 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
     private class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
         private final String[] TITLES = new String[]{getString(R.string.o_nas), getString(R.string.facultet),
-                getString(R.string.students), getString(R.string.reception),
+                getString(R.string.bachelor), getString(R.string.magistratura),
                 getString(R.string.dormitory), getString(R.string.video_gallery),
                 getString(R.string.photo_gallery), getString(R.string.price)};
 
@@ -299,6 +303,8 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         String map;
         String phone_number;
         private int mScrollY;
+        String[] photoUrls;
+        String[] videoIds;
 
         public NavigationAdapter(FragmentManager fm, String aboutUs, String abiturient, String magistratura, String dormitory,
                                  String photo_gallery, String video_gallery, String faculty, String map, String phone_number) {
@@ -308,8 +314,8 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
             this.abiturient = abiturient;
             this.magistratura = magistratura;
             this.dormitory = dormitory;
-            this.photo_gallery = photo_gallery;
-            this.video_gallery = video_gallery;
+            this.photoUrls = photo_gallery.split(",");
+            this.videoIds = video_gallery.split(",");
             this.faculty = faculty;
             this.map = map;
             this.phone_number = phone_number;
@@ -323,39 +329,42 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         @Override
         protected Fragment createItem(int position) {
             FlexibleSpaceWithImageBaseFragment f;
-            final int pattern = position % 4;
-            switch (pattern) {
-                case 0: {
+            switch (position) {
+                case 0: {//about us
                     f = new AboutUniversity(aboutUs);
                     break;
                 }
-                case 1: {
-                    f = new Faculty();
+                case 1: {//faculty
+                    f = new Faculty(faculty);
                     break;
                 }
-                case 2: {
+                case 2: {//bakalavr
+                    f = new Bachelor(abiturient);
+                    break;
+                }
+                case 3: {//magistratura
+                    f = new Magistratura(magistratura);
+                    break;
+                }
+                case 4: {//dormitory
+                    f = new Dormitory(dormitory);
+                    break;
+                }
+                case 5: {//video gallery
                     f = new VideoFragment();
                     break;
                 }
-                case 3: {
+                case 6: {//photo_gallery
                     f = new PhotoGallery();
                     break;
                 }
-                case 4: {
-                    f = new Faculty();
+                case 7: {//price
+                    f = new PriceList();
                     break;
                 }
-                case 5: {
-                    f = new PhotoGallery();
-                    break;
-                }
-                case 6: {
-                    f = new AboutUniversity(aboutUs);
-                    break;
-                }
-                case 7:
-                default: {
-                    f = new PhotoGallery();
+                case 8:
+                default: {//contact
+                    f = new Contact(map);
                     break;
                 }
             }

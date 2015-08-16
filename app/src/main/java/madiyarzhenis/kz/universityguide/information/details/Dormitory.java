@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
@@ -28,10 +29,15 @@ import com.github.ksoichiro.android.observablescrollview.Scrollable;
 import madiyarzhenis.kz.universityguide.R;
 
 public class Dormitory extends FlexibleSpaceWithImageBaseFragment<ObservableScrollView> {
+    String dormitory;
+    TextView textView;
+    public Dormitory(String dormitory) {
+        this.dormitory = dormitory;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_about_university, container, false);
+        View view = inflater.inflate(R.layout.fragment_dormitory, container, false);
 
         final ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
         // TouchInterceptionViewGroup should be a parent view other than ViewPager.
@@ -39,6 +45,8 @@ public class Dormitory extends FlexibleSpaceWithImageBaseFragment<ObservableScro
         // https://github.com/ksoichiro/Android-ObservableScrollView/issues/117
         scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
 
+        textView = (TextView) view.findViewById(R.id.textViewDormitory);
+        textView.setText(dormitory);
         // Scroll to the specified offset after layout
         Bundle args = getArguments();
         if (args != null && args.containsKey(ARG_SCROLL_Y)) {

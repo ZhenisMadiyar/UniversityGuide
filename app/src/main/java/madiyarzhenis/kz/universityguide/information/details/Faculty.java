@@ -37,7 +37,11 @@ import madiyarzhenis.kz.universityguide.R;
 public class Faculty extends FlexibleSpaceWithImageBaseFragment<ObservableListView> {
 
     AdapterFaculty adapterFacultyList;
-    String[] facultyName = {"A", "B", "C", "D"};
+    String[] facultyName;
+    public Faculty(String faculty) {
+        this.facultyName = faculty.split(",");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_faculty, container, false);

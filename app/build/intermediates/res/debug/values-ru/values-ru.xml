@@ -19,17 +19,17 @@
     <eat-comment/>
     <string name="app_name">UniversityGuide</string>
     <string name="application_id">w7phYAryYwYNixCTU8sATXyHVIaLyvNoyc7ZDEEB</string>
+    <string name="bachelor">Бакалавр</string>
     <string name="client_key">QEFOHNpu53Tb9ikpyYZe2elxxpBm20Xtak0LtFg8</string>
     <string name="dormitory">Общежития</string>
     <string name="facultet">Факультеты</string>
     <string name="language">Язык</string>
     <string name="list_univer">Список универсиетов</string>
+    <string name="magistratura">Магистратура</string>
     <string name="master_key">GoPbj7GXTcHl69eyiZnHNiaJ77d3sOFSHvOCaIta</string>
     <string name="o_nas">Про нас</string>
     <string name="photo_gallery">Фото галерея</string>
     <string name="price">Стоимость обучение</string>
-    <string name="reception">Комисся</string>
-    <string name="students">Студентом</string>
     <string name="test">Тест</string>
     <string name="video_gallery">Видео галерея</string>
 </resources>

@@ -28,23 +28,20 @@ import com.github.ksoichiro.android.observablescrollview.Scrollable;
 
 import madiyarzhenis.kz.universityguide.R;
 
-public class AboutUniversity extends FlexibleSpaceWithImageBaseFragment<ObservableScrollView> {
-    String about_us;
+public class Contact extends FlexibleSpaceWithImageBaseFragment<ObservableScrollView> {
+    String bachelor;
     TextView textView;
-    public AboutUniversity(String aboutUs) {
-        this.about_us = aboutUs;
+    public Contact(String bachelor) {
+        this.bachelor = bachelor;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_about_university, container, false);
+        View view = inflater.inflate(R.layout.fragment_contact, container, false);
 
         final ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
-        textView = (TextView) view.findViewById(R.id.textViewAbout);
-        textView.setText(about_us);
-        // TouchInterceptionViewGroup should be a parent view other than ViewPager.
-        // This is a workaround for the issue #117:
-        // https://github.com/ksoichiro/Android-ObservableScrollView/issues/117
+        textView = (TextView) view.findViewById(R.id.textViewContact);
+        textView.setText(bachelor);
         scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
         Bundle args = getArguments();
         if (args != null && args.containsKey(ARG_SCROLL_Y)) {

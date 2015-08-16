@@ -31,7 +31,7 @@ public class PriceList extends FlexibleSpaceWithImageBaseFragment<ObservableScro
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_about_university, container, false);
+        View view = inflater.inflate(R.layout.fragment_price, container, false);
 
         final ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
         // TouchInterceptionViewGroup should be a parent view other than ViewPager.

@@ -262,6 +262,7 @@
     <string name="action_settings" translatable="false">Settings</string>
     <string name="app_name">UniversityGuide</string>
     <string name="application_id">QdfEC6EuKbvEgHNsRTR1Zp0DXsJ4FsqxPtARwbMC</string>
+    <string name="bachelor">Бакалавр</string>
     <string name="client_key">lteis1LSm2swhUpJHJUmaqdytHLCY5vwLsnajMbG</string>
     <string name="dormitory">Жатақхана</string>
     <string name="facultet">Факультеттер</string>
@@ -269,17 +270,16 @@
     <string name="language">Тіл</string>
     <string name="lipsum" translatable="false">Lorem ipsum dolor sit amet, ut duis lorem provident sed felis blandit, condimentum donec </string>
     <string name="list_univer">Университеттер тізімі</string>
+    <string name="magistratura">Магистратура</string>
     <string name="master_key">gwCkarKctb190t45tIbj0QGnZ1LOqJoxdH5VOh6j</string>
     <string name="o_nas">Біз туралы</string>
     <string name="photo_gallery">Фото галерея</string>
     <string name="price">Оқу ақысы</string>
-    <string name="reception">Қабылдау комиссиясы</string>
     <!-- From: file:/D:/My%20Projects%231/Android-ObservableScrollView-master/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
     <string name="status_bar_notification_info_overflow">999+</string>
     <!-- From: file:/D:/My%20Projects%231/Android-ObservableScrollView-master/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="students">Студенттерге</string>
     <string name="test">Тест</string>
     <string name="video_gallery">Видео Галерея</string>
     <!-- From: file:/D:/My%20Projects%231/Android-ObservableScrollView-master/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
