@@ -41,6 +41,11 @@ public class VideoFragment extends FlexibleSpaceWithImageBaseFragment<Observable
 
     AdapterFaculty adapterFacultyList;
     String[] facultyName = {"Video-A", "Video-B", "Video-C", "Video-D", "Video-A", "Video-B", "Video-C", "Video-D"};
+    String[] videoIds;
+    public VideoFragment(String[] videoIds) {
+        this.videoIds = videoIds;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_gallery, container, false);

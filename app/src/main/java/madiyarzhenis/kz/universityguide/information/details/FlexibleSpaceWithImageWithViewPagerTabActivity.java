@@ -381,11 +381,11 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
                     break;
                 }
                 case 5: {//video gallery
-                    f = new VideoFragment();
+                    f = new VideoFragment(videoIds);
                     break;
                 }
                 case 6: {//photo_gallery
-                    f = new PhotoGallery();
+                    f = new PhotoGallery(photoUrls);
                     break;
                 }
                 case 7: {//price

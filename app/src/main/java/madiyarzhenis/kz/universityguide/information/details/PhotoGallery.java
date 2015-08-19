@@ -21,6 +21,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import android.widget.ImageView;
 import com.github.ksoichiro.android.observablescrollview.ObservableGridView;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
+import com.squareup.picasso.Picasso;
 
 import madiyarzhenis.kz.universityguide.R;
 
@@ -39,6 +41,11 @@ public class PhotoGallery extends FlexibleSpaceWithImageBaseFragment<ObservableG
     int images[] = {R.drawable.ic_launcher, R.drawable.icon_qazaq, R.drawable.icon_qazaq, R.drawable.icon_qazaq
             , R.drawable.icon_qazaq, R.drawable.icon_qazaq, R.drawable.icon_qazaq, R.drawable.icon_qazaq};
     AdapterPhotoGallery adapter;
+    String photoUrl[];
+    public PhotoGallery(String[] photoUrls) {
+        this.photoUrl = photoUrls;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
@@ -56,7 +63,7 @@ public class PhotoGallery extends FlexibleSpaceWithImageBaseFragment<ObservableG
 
         gridView.addHeaderView(paddingView);
 
-        adapter = new AdapterPhotoGallery(getActivity(), images);
+        adapter = new AdapterPhotoGallery(getActivity(), photoUrl);
         gridView.setAdapter(adapter);
 //        setDummyData(gridView);
         // TouchInterceptionViewGroup should be a parent view other than ViewPager.
@@ -146,9 +153,9 @@ public class PhotoGallery extends FlexibleSpaceWithImageBaseFragment<ObservableG
 
     private class AdapterPhotoGallery extends BaseAdapter {
         Activity activity;
-        int[] photos;
+        String[] photos;
         LayoutInflater inflater;
-        public AdapterPhotoGallery(Activity activity, int[] photos) {
+        public AdapterPhotoGallery(Activity activity, String[] photos) {
             this.activity = activity;
             this.photos = photos;
             inflater = LayoutInflater.from(activity);
@@ -176,17 +183,20 @@ public class PhotoGallery extends FlexibleSpaceWithImageBaseFragment<ObservableG
             if (convertView == null) {
                 view = new ViewHolder();
                 convertView = inflater.inflate(R.layout.item_photo_gallery, null);
-                view.name = (ImageView) convertView.findViewById(R.id.imageViewPhoto);
+                view.imageView = (ImageView) convertView.findViewById(R.id.imageViewPhoto);
                 convertView.setTag(view);
             } else {
                 view = (ViewHolder) convertView.getTag();
             }
-            view.name.setBackgroundResource(photos[position]);
+            Log.i("URL", photos[position]);
+            Picasso.with(activity)
+                    .load(photos[position])
+                    .into(view.imageView);
             return convertView;
         }
 
         public class ViewHolder {
-            public ImageView name;
+            public ImageView imageView;
         }
     }
 
