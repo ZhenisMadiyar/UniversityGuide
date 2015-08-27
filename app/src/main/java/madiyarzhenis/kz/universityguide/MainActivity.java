@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.Window;
 
 import com.indris.material.RippleView;
 
@@ -16,9 +17,9 @@ public class MainActivity  extends ActionBarActivity {
     RippleView testButton, listButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         testButton = (RippleView) findViewById(R.id.btnTest);
         testButton.setOnClickListener(new View.OnClickListener() {

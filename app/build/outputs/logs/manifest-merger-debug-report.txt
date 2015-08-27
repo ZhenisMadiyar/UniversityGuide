@@ -84,6 +84,32 @@ ADDED from AndroidManifest.xml:28:9
 		ADDED from AndroidManifest.xml:31:13
 	android:name
 		ADDED from AndroidManifest.xml:29:13
+activity#madiyarzhenis.kz.universityguide.information.details.FullScreenImage
+ADDED from AndroidManifest.xml:33:9
+	android:name
+		ADDED from AndroidManifest.xml:33:19
+activity#madiyarzhenis.kz.universityguide.information.details.VideoShow
+ADDED from AndroidManifest.xml:34:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:35:13
+	android:name
+		ADDED from AndroidManifest.xml:34:19
+activity#madiyarzhenis.kz.universityguide.setting.Settings
+ADDED from AndroidManifest.xml:36:9
+	android:name
+		ADDED from AndroidManifest.xml:36:19
+activity#madiyarzhenis.kz.universityguide.setting.Language
+ADDED from AndroidManifest.xml:37:9
+	android:name
+		ADDED from AndroidManifest.xml:37:19
+activity#madiyarzhenis.kz.universityguide.setting.TestUniver
+ADDED from AndroidManifest.xml:38:9
+	android:name
+		ADDED from AndroidManifest.xml:38:19
+activity#madiyarzhenis.kz.universityguide.setting.Result
+ADDED from AndroidManifest.xml:39:9
+	android:name
+		ADDED from AndroidManifest.xml:39:19
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:22.2.0:20:5

@@ -30,6 +30,13 @@
             android:label="FlexibleSpaceWithImageWithViewPagerTabActivity"
             android:theme="@style/AppTheme.Toolbar">
         </activity>
+        <activity android:name=".information.details.FullScreenImage"/>
+        <activity android:name=".information.details.VideoShow"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".setting.Settings"/>
+        <activity android:name=".setting.Language"/>
+        <activity android:name=".setting.TestUniver"/>
+        <activity android:name=".setting.Result"/>
     </application>
 
 </manifest>

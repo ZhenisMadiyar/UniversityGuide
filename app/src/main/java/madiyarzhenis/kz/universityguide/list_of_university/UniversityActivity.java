@@ -9,12 +9,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,7 +46,7 @@ import madiyarzhenis.kz.universityguide.models.University;
  */
 public class UniversityActivity extends ActionBarActivity {
     ListView listViewUniversity;
-    ViewPager listViewTop;
+//    ViewPager listViewTop;
     ViewPagerAdapter adapterView;
 //    UniversityAdapter adapter;
     TopUniversityAdapter adapterTop;
@@ -58,6 +61,7 @@ public class UniversityActivity extends ActionBarActivity {
     CardItemData data;
     ArrayList<String> objectIDArray;
     ArrayList<String> nameArray;
+    public static ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,14 +71,20 @@ public class UniversityActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        final int flexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.padding);
+        View paddingView = new View(this);
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
+                flexibleSpaceImageHeight);
+        paddingView.setLayoutParams(lp);
         objectIDArray = new ArrayList<>();
         nameArray = new ArrayList<>();
         listViewUniversity = (ListView) findViewById(R.id.listViewUniversity);
-        listViewTop = (ViewPager) findViewById(R.id.HorizontalListViewTop);
+//        listViewTop = (ViewPager) findViewById(R.id.HorizontalListViewTop);
 
-        listViewUniversity.addHeaderView(new View(this));
-        listViewUniversity.addFooterView(new View(this));
+        listViewUniversity.addHeaderView(paddingView);
+        listViewUniversity.addFooterView(paddingView);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBarUniversity);
 //        adapter = new UniversityAdapter(UniversityActivity.this, university);
 
 
@@ -131,9 +141,9 @@ public class UniversityActivity extends ActionBarActivity {
                 startActivity(intent1);
             }
         });
-        adapterView = new ViewPagerAdapter(UniversityActivity.this, top, img);
-        // Binds the Adapter to the ViewPager
-        listViewTop.setAdapter(adapterView);
+//        adapterView = new ViewPagerAdapter(UniversityActivity.this, top, img);
+//        listViewTop.setAdapter(adapterView);
+        Log.i("","");
 //        adapterTop = new TopUniversityAdapter(UniversityActivity.this, top);
 //        listViewTop.setAdapter(adapterTop);
 //        listViewTop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -143,7 +153,14 @@ public class UniversityActivity extends ActionBarActivity {
 //            }
 //        });
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case android.R.id.home:
+                finish();
+        }
+        return (super.onOptionsItemSelected(menuItem));
+    }
     public class ViewPagerAdapter extends PagerAdapter {
         // Declare Variables
         Context context;

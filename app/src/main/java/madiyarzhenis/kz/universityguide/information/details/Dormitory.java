@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
@@ -30,6 +31,7 @@ import madiyarzhenis.kz.universityguide.R;
 
 public class Dormitory extends FlexibleSpaceWithImageBaseFragment<ObservableScrollView> {
     String dormitory;
+    LinearLayout linearLayout;
     TextView textView;
     public Dormitory(String dormitory) {
         this.dormitory = dormitory;
@@ -43,6 +45,8 @@ public class Dormitory extends FlexibleSpaceWithImageBaseFragment<ObservableScro
         // TouchInterceptionViewGroup should be a parent view other than ViewPager.
         // This is a workaround for the issue #117:
         // https://github.com/ksoichiro/Android-ObservableScrollView/issues/117
+
+        linearLayout = (LinearLayout) view.findViewById(R.id.linLay);
         scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
 
         textView = (TextView) view.findViewById(R.id.textViewDormitory);

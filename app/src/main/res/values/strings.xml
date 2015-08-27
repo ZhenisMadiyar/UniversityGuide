@@ -19,4 +19,26 @@
     <string name="application_id">QdfEC6EuKbvEgHNsRTR1Zp0DXsJ4FsqxPtARwbMC</string>
     <string name="client_key">lteis1LSm2swhUpJHJUmaqdytHLCY5vwLsnajMbG</string>
     <string name="master_key">gwCkarKctb190t45tIbj0QGnZ1LOqJoxdH5VOh6j</string>
+    <string name="no_connection">Интернетке қосылып қайталап көріңіз</string>
+    <string name="setting">Баптаулар</string>
+
+    <string-array name="test_questions">
+        <item>Я люблю командные виды спорта</item>
+        <item>Я увлекаюсь разгадыванием кроссвордов</item>
+        <item>Я всегда готов дать совет, если другим он нужен</item>
+        <item>Мне нравится говорить по телефону</item>
+        <item>Я всегда составляю список дел, которые нужно выполнить</item>
+        <item>Я бы предпочел работать на самого себя, чем на кого-то другого</item>
+        <item>Мне доставляет удовольствие помогать людям</item>
+        <item>Мне нравится напрягать свое воображение</item>
+        <item>Я силен в естественных науках</item>
+        <item>Моя комната всегда находится в образцовом порядке</item>
+        <item>Математика - это то, что я знаю лучше всего</item>
+        <item>Я веду дневник</item>
+        <item>Я разбираю вещи, чтобы понять, как они устроены</item>
+        <item>Меня интересует природа</item>
+        <item>Я люблю читать энциклопедию подряд, страницу за страницей</item>
+        <item>Я предпочитаю находиться на открытом воздухе, нежели в помещении</item>
+    </string-array>
+
 </resources>

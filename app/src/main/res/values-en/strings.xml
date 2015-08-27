@@ -15,4 +15,6 @@
     <string name="master_key">4t6wuMK1MNvhnT7wZn2531Zjm5m2U01KwsnCXV1l</string>
     <string name="bachelor">Bachelor</string>
     <string name="magistratura">Magistracy</string>
+    <string name="no_connection">You do not have internet connection</string>
+    <string name="setting">Settings</string>
 </resources>

@@ -15,4 +15,6 @@
     <string name="client_key">QEFOHNpu53Tb9ikpyYZe2elxxpBm20Xtak0LtFg8</string>
     <string name="bachelor">Бакалавр</string>
     <string name="magistratura">Магистратура</string>
+    <string name="no_connection">Подключитесь к интернету и повторите попытку</string>
+    <string name="setting">Настройки</string>
 </resources>

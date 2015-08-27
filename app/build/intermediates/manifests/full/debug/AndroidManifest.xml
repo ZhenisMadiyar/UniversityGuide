@@ -36,6 +36,14 @@
             android:label="FlexibleSpaceWithImageWithViewPagerTabActivity"
             android:theme="@style/AppTheme.Toolbar" >
         </activity>
+        <activity android:name="madiyarzhenis.kz.universityguide.information.details.FullScreenImage" />
+        <activity
+            android:name="madiyarzhenis.kz.universityguide.information.details.VideoShow"
+            android:screenOrientation="landscape" />
+        <activity android:name="madiyarzhenis.kz.universityguide.setting.Settings" />
+        <activity android:name="madiyarzhenis.kz.universityguide.setting.Language" />
+        <activity android:name="madiyarzhenis.kz.universityguide.setting.TestUniver" />
+        <activity android:name="madiyarzhenis.kz.universityguide.setting.Result" />
     </application>
 
 </manifest>

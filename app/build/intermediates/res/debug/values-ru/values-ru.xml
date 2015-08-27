@@ -27,9 +27,11 @@
     <string name="list_univer">Список универсиетов</string>
     <string name="magistratura">Магистратура</string>
     <string name="master_key">GoPbj7GXTcHl69eyiZnHNiaJ77d3sOFSHvOCaIta</string>
+    <string name="no_connection">Подключитесь к интернету и повторите попытку</string>
     <string name="o_nas">Про нас</string>
     <string name="photo_gallery">Фото галерея</string>
     <string name="price">Стоимость обучение</string>
+    <string name="setting">Настройки</string>
     <string name="test">Тест</string>
     <string name="video_gallery">Видео галерея</string>
 </resources>

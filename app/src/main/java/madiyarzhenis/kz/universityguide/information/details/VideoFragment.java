@@ -18,7 +18,9 @@ package madiyarzhenis.kz.universityguide.information.details;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,8 +72,9 @@ public class VideoFragment extends FlexibleSpaceWithImageBaseFragment<Observable
         listView.addHeaderView(paddingView);
         listView.addHeaderView(new View(getActivity()));
         listView.addFooterView(new View(getActivity()));
-        for (int i = 0; i < 8; i++) {
-            CardItemDataVideo data = new CardItemDataVideo(facultyName[i]);
+        for (int i = 0; i < videoIds.length; i++) {
+            Log.i("VideoID", videoIds[i]);
+            CardItemDataVideo data = new CardItemDataVideo(videoIds[i]);
             adapter.addItem(data, false);
         }
 
@@ -80,6 +83,9 @@ public class VideoFragment extends FlexibleSpaceWithImageBaseFragment<Observable
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(), VideoShow.class);
+                intent.putExtra("videoId", videoIds[i-2]);
+                startActivity(intent);
                 Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_SHORT).show();
             }
         });

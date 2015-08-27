@@ -1,42 +1,90 @@
 package madiyarzhenis.kz.universityguide;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.Locale;
 
-public class LanguageActivity extends ActionBarActivity {
+import madiyarzhenis.kz.universityguide.city_list.CityActivity;
+
+
+public class LanguageActivity extends Activity {
     ListView listView;
     LanguageAdapter adapter;
     String languages[] = {"Kazakh", "Russian", "English"};
+    String[] lg = {"kk_KZ","ru_RU", "en_GB"};
+
+    Locale myLocale;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editorLanguage;
+
+    public static final String MyPrefs = "MyPrefs";
+    SharedPreferences sp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_language);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sp = getSharedPreferences(MyPrefs, Context.MODE_PRIVATE);
+
+        if (!sp.getBoolean("first", false)) {//if true
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("first", true);
+            editor.apply();
+            Log.i("Language", "no choosen");
+        }else {
+            Log.i("Language", "Choosen");
+            startActivity(new Intent(getApplicationContext(), CityActivity.class));
+        }
+
         listView = (ListView) findViewById(R.id.listViewLanguage);
         adapter = new LanguageAdapter(this, languages);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(LanguageActivity.this, MainActivity.class);
-                intent.putExtra("lang", languages[i]);
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent(LanguageActivity.this, CityActivity.class);
+                setLocale(lg[position]);
+                editorLanguage = sharedPreferences.edit();
+                editorLanguage.putString("last_locale", lg[position]);
+                editorLanguage.apply();
                 startActivity(intent);
             }
         });
     }
 
+    public void setLocale(String lang) {
+
+        myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

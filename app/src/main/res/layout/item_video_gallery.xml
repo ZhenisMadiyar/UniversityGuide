@@ -10,7 +10,7 @@
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:paddingLeft="15dp"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
@@ -19,23 +19,35 @@
         android:descendantFocusability="afterDescendants">
 
         <ImageView
-            android:background="@drawable/icon_qazaq"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:src="@drawable/icon_qazaq"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
             android:id="@+id/imageViewVideo"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/textViewVideo"
+            android:text="New Text"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/title_video"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/imageViewVideo"
             android:layout_toEndOf="@+id/imageViewVideo" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/play_btn"
+            android:id="@+id/imageButton"
+            android:layout_centerVertical="true"
+            android:layout_alignRight="@+id/imageViewVideo"
+            android:layout_alignEnd="@+id/imageViewVideo"
+            android:layout_alignLeft="@+id/imageViewVideo"
+            android:layout_alignStart="@+id/imageViewVideo" />
+
     </RelativeLayout>
 
 </FrameLayout>

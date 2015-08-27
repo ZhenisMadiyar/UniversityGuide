@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- From: file:/D:/My%20Projects%231/Android-ObservableScrollView-master/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string-array name="test_questions">
+        <item>Я люблю командные виды спорта</item>
+        <item>Я увлекаюсь разгадыванием кроссвордов</item>
+        <item>Я всегда готов дать совет, если другим он нужен</item>
+        <item>Мне нравится говорить по телефону</item>
+        <item>Я всегда составляю список дел, которые нужно выполнить</item>
+        <item>Я бы предпочел работать на самого себя, чем на кого-то другого</item>
+        <item>Мне доставляет удовольствие помогать людям</item>
+        <item>Мне нравится напрягать свое воображение</item>
+        <item>Я силен в естественных науках</item>
+        <item>Моя комната всегда находится в образцовом порядке</item>
+        <item>Математика - это то, что я знаю лучше всего</item>
+        <item>Я веду дневник</item>
+        <item>Я разбираю вещи, чтобы понять, как они устроены</item>
+        <item>Меня интересует природа</item>
+        <item>Я люблю читать энциклопедию подряд, страницу за страницей</item>
+        <item>Я предпочитаю находиться на открытом воздухе, нежели в помещении</item>
+    </string-array>
     <!-- From: file:/D:/My%20Projects%231/Android-ObservableScrollView-master/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
@@ -212,6 +232,7 @@
     <dimen name="notification_subtext_size">12dp</dimen>
     <!-- From: file:/D:/My%20Projects%231/Android-ObservableScrollView-master/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
+    <dimen name="padding">5dp</dimen>
     <dimen name="parallax_image_height">180dp</dimen>
     <dimen name="sliding_overlay_blur_size">4dp</dimen>
     <dimen name="sliding_slop">32dp</dimen>
@@ -272,9 +293,11 @@
     <string name="list_univer">Университеттер тізімі</string>
     <string name="magistratura">Магистратура</string>
     <string name="master_key">gwCkarKctb190t45tIbj0QGnZ1LOqJoxdH5VOh6j</string>
+    <string name="no_connection">Интернетке қосылып қайталап көріңіз</string>
     <string name="o_nas">Біз туралы</string>
     <string name="photo_gallery">Фото галерея</string>
     <string name="price">Оқу ақысы</string>
+    <string name="setting">Баптаулар</string>
     <!-- From: file:/D:/My%20Projects%231/Android-ObservableScrollView-master/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
     <string name="status_bar_notification_info_overflow">999+</string>

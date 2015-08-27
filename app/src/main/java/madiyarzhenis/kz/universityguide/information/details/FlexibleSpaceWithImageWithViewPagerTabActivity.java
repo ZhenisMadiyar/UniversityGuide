@@ -17,12 +17,13 @@
 package madiyarzhenis.kz.universityguide.information.details;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.GradientDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,8 +33,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.CacheFragmentStatePagerAdapter;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
@@ -52,9 +55,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.michaelevans.colorart.library.ColorArt;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import madiyarzhenis.kz.universityguide.BaseActivity;
@@ -95,18 +96,19 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
     Gson gson;
     FrameLayout frameLayout;
     RelativeLayout relativeLayout;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flexiblespacewithimagewithviewpagertab);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         mPager = (ViewPager) findViewById(R.id.pager);
         imageView = (ImageView) findViewById(R.id.image);
         mFlexibleSpaceHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         mTabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
-        TextView titleView = (TextView) findViewById(R.id.title);
-        titleView.setText(intent.getStringExtra("name"));
+        progressBar = (ProgressBar) findViewById(R.id.progressBarInformation);
+        final TextView titleView = (TextView) findViewById(R.id.title);
         gson = new Gson();
         relativeLayout = (RelativeLayout) findViewById(R.id.gradientImage);
         frameLayout = (FrameLayout) findViewById(R.id.root);
@@ -115,70 +117,76 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         parameter = new HashMap<String, Object>();
         parameter.put("university_id", intent.getStringExtra("objectId"));
         Log.i("objectId", intent.getStringExtra("objectId"));
-        ParseCloud.callFunctionInBackground("university", parameter, new FunctionCallback<Object>() {
-            public void done(Object response, ParseException e) {
+        if (isOnline()) {
+            ParseCloud.callFunctionInBackground("university", parameter, new FunctionCallback<Object>() {
+                public void done(Object response, ParseException e) {
 //                arrayList = new ArrayList<>();
 //                objectIDArray.clear();
-                if (e != null) {
-                    Log.i("E", "error");
-                    Log.e("Exception", e.toString());
-                } else {
-                    String json = gson.toJson(response);
-                    if (json.equals("[]")) {
-                        Log.i("json", "null");
-                        Log.i("json_null", json);
+                    if (e != null) {
+                        Log.i("E", "error");
+                        Log.e("Exception", e.toString());
                     } else {
-                        Log.i("JSON_UNIVERSITY_ABOUT", json);
-                    }
-                    try {
-                        JSONArray jsonArray = new JSONArray(json);
-                        JSONObject jsonObject = jsonArray.getJSONObject(0);
-                        JSONObject estimatedData = jsonObject.getJSONObject("estimatedData");
-                        JSONObject jsonImage = estimatedData.getJSONObject("image");
-                        String imageUrl = jsonImage.getString("url");
-                        final String aboutUs = estimatedData.getString("about_us");
-                        final String magistratura = estimatedData.getString("magistratura");
-                        final String dormitory = estimatedData.getString("dormitory");
-                        final String abiturient = estimatedData.getString("abiturient");
-                        final String photo_gallery = estimatedData.getString("photo_gallery");
-                        final String video_gallery = estimatedData.getString("video_gallery");
-                        final String faculty = estimatedData.getString("faculty");
-                        final String map = estimatedData.getString("map");
-                        final String phone_number = estimatedData.getString("phone_number");
-                        Picasso.with(FlexibleSpaceWithImageWithViewPagerTabActivity.this)
-                                .load(imageUrl)
-                                .into(imageView, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-                                        Bitmap bitmap = drawable.getBitmap();
-                                        ColorArt colorArt = new ColorArt(bitmap);
-                                        frameLayout.setBackgroundColor(colorArt.getBackgroundColor());
-                                        GradientDrawable gd = new GradientDrawable(
-                                                GradientDrawable.Orientation.TOP_BOTTOM,
-                                                new int[]{0x00000000, colorArt.getBackgroundColor()});
-                                        gd.setCornerRadius(0f);
+                        String json = gson.toJson(response);
+                        if (json.equals("[]")) {
+                            Log.i("json", "null");
+                            Log.i("json_null", json);
+                        } else {
+                            Log.i("JSON_UNIVERSITY_ABOUT", json);
+                        }
+                        try {
+                            JSONArray jsonArray = new JSONArray(json);
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            JSONObject estimatedData = jsonObject.getJSONObject("estimatedData");
+                            JSONObject jsonImage = estimatedData.getJSONObject("image");
+                            String imageUrl = jsonImage.getString("url");
+                            final String aboutUs = estimatedData.getString("about_us");
+                            final String magistratura = estimatedData.getString("magistratura");
+                            final String dormitory = estimatedData.getString("dormitory");
+                            final String abiturient = estimatedData.getString("abiturient");
+                            final String photo_gallery = estimatedData.getString("photo_gallery");
+                            final String video_gallery = estimatedData.getString("video_gallery");
+                            final String faculty = estimatedData.getString("faculty");
+                            final String map = estimatedData.getString("map");
+                            final String phone_number = estimatedData.getString("phone_number");
+                            Picasso.with(FlexibleSpaceWithImageWithViewPagerTabActivity.this)
+                                    .load(imageUrl)
+                                    .into(imageView, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            titleView.setText(intent.getStringExtra("name"));
+                                            progressBar.setVisibility(View.GONE);
+                                            BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                                            Bitmap bitmap = drawable.getBitmap();
+                                            ColorArt colorArt = new ColorArt(bitmap);
+//                                            frameLayout.setBackgroundColor(colorArt.getBackgroundColor());
+//                                            GradientDrawable gd = new GradientDrawable(
+//                                                    GradientDrawable.Orientation.TOP_BOTTOM,
+//                                                    new int[]{0x00000000, colorArt.getBackgroundColor()});
+//                                            gd.setCornerRadius(0f);
 //                                        relativeLayout.setBackgroundDrawable(gd);
-                                        mPagerAdapter = new NavigationAdapter(getSupportFragmentManager(), aboutUs, abiturient, magistratura, dormitory
-                                                , photo_gallery, video_gallery, faculty, map, phone_number, colorArt.getBackgroundColor());
-                                        mPager.setAdapter(mPagerAdapter);
-                                        mSlidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
-                                        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
-                                        mSlidingTabLayout.setDistributeEvenly(true);
-                                        mSlidingTabLayout.setViewPager(mPager);
-                                    }
+                                            mPagerAdapter = new NavigationAdapter(getSupportFragmentManager(), aboutUs, abiturient, magistratura, dormitory
+                                                    , photo_gallery, video_gallery, faculty, map, phone_number, colorArt.getBackgroundColor());
+                                            mPager.setAdapter(mPagerAdapter);
+                                            mSlidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
+                                            mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
+                                            mSlidingTabLayout.setDistributeEvenly(true);
+                                            mSlidingTabLayout.setViewPager(mPager);
+                                        }
 
-                                    @Override
-                                    public void onError() {
+                                        @Override
+                                        public void onError() {
 
-                                    }
-                                });
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
+                                        }
+                                    });
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }else {
+            Toast.makeText(getApplicationContext(), getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+        }
 
 //        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
 //        Bitmap bitmap = drawable.getBitmap();
@@ -193,7 +201,12 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
             }
         });
     }
-
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
     /**
      * Called by children Fragments when their scrollY are changed.
      * They all call this method even when they are inactive
@@ -233,7 +246,6 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         View imageView = findViewById(R.id.image);
         View overlayView = findViewById(R.id.overlay);
         TextView titleView = (TextView) findViewById(R.id.title);
-
         // Translate overlay and image
         float flexibleRange = flexibleSpaceImageHeight - getActionBarSize();
         int minOverlayTransitionY = tabHeight - overlayView.getHeight();
@@ -411,70 +423,5 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         public CharSequence getPageTitle(int position) {
             return TITLES[position];
         }
-    }
-
-    public int getDominantColor1(Bitmap bitmap) {
-
-        if (bitmap == null)
-            throw new NullPointerException();
-
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int size = width * height;
-        int pixels[] = new int[size];
-
-        Bitmap bitmap2 = bitmap.copy(Bitmap.Config.ARGB_4444, false);
-
-        bitmap2.getPixels(pixels, 0, width, 0, 0, width, height);
-
-        final List<HashMap<Integer, Integer>> colorMap = new ArrayList<HashMap<Integer, Integer>>();
-        colorMap.add(new HashMap<Integer, Integer>());
-        colorMap.add(new HashMap<Integer, Integer>());
-        colorMap.add(new HashMap<Integer, Integer>());
-
-        int color = 0;
-        int r = 0;
-        int g = 0;
-        int b = 0;
-        Integer rC, gC, bC;
-        for (int i = 0; i < pixels.length; i++) {
-            color = pixels[i];
-
-            r = Color.red(color);
-            g = Color.green(color);
-            b = Color.blue(color);
-
-            rC = colorMap.get(0).get(r);
-            if (rC == null)
-                rC = 0;
-            colorMap.get(0).put(r, ++rC);
-
-            gC = colorMap.get(1).get(g);
-            if (gC == null)
-                gC = 0;
-            colorMap.get(1).put(g, ++gC);
-
-            bC = colorMap.get(2).get(b);
-            if (bC == null)
-                bC = 0;
-            colorMap.get(2).put(b, ++bC);
-        }
-
-        int[] rgb = new int[3];
-        for (int i = 0; i < 3; i++) {
-            int max = 0;
-            int val = 0;
-            for (Map.Entry<Integer, Integer> entry : colorMap.get(i).entrySet()) {
-                if (entry.getValue() > max) {
-                    max = entry.getValue();
-                    val = entry.getKey();
-                }
-            }
-            rgb[i] = val;
-        }
-
-        int dominantColor = Color.rgb(rgb[0], rgb[1], rgb[2]);
-
-        return dominantColor;
     }
 }

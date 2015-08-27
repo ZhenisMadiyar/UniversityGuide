@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 
 import madiyarzhenis.kz.universityguide.MyApplication;
 import madiyarzhenis.kz.universityguide.R;
+import madiyarzhenis.kz.universityguide.list_of_university.UniversityActivity;
 import madiyarzhenis.kz.universityguide.list_of_university.adapters.BaseInflaterAdapter;
 import madiyarzhenis.kz.universityguide.list_of_university.adapters.CardItemData;
 import madiyarzhenis.kz.universityguide.list_of_university.adapters.IAdapterViewInflater;
@@ -63,6 +64,7 @@ public class CardInflater implements IAdapterViewInflater<CardItemData>
 			Picasso.with(MyApplication.getAppContext())
 					.load(item.getImageUrl())
 					.into(imageView);
+			UniversityActivity.progressBar.setVisibility(View.GONE);
 
 		}
 	}

@@ -19,12 +19,14 @@ package madiyarzhenis.kz.universityguide.information.details;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -65,11 +67,23 @@ public class PhotoGallery extends FlexibleSpaceWithImageBaseFragment<ObservableG
 
         adapter = new AdapterPhotoGallery(getActivity(), photoUrl);
         gridView.setAdapter(adapter);
+        Log.i("LENGTH", photoUrl.length+"");
 //        setDummyData(gridView);
         // TouchInterceptionViewGroup should be a parent view other than ViewPager.
         // This is a workaround for the issue #117:
         // https://github.com/ksoichiro/Android-ObservableScrollView/issues/117
         gridView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(), FullScreenImage.class);
+                intent.putExtra("urlArray", photoUrl);
+                intent.putExtra("position", i-2);
+                Log.i("position", i-2+"");
+                startActivity(intent);
+            }
+        });
 
         // Scroll to the specified offset after layout
         Bundle args = getArguments();
@@ -158,6 +172,7 @@ public class PhotoGallery extends FlexibleSpaceWithImageBaseFragment<ObservableG
         public AdapterPhotoGallery(Activity activity, String[] photos) {
             this.activity = activity;
             this.photos = photos;
+            Log.i("URL_LENGTH", photos.length+"");
             inflater = LayoutInflater.from(activity);
         }
 

@@ -5,15 +5,20 @@ package madiyarzhenis.kz.universityguide.information.details.adapter_video;
  */
 public class CardItemDataVideo
 {
-	private String videoTitle;
+	private String videoId;
 
-	public CardItemDataVideo(String videoTitle)
-	{
-		this.videoTitle = videoTitle;
+	public CardItemDataVideo(String videoId) {
+		this.videoId = videoId;
 	}
 
-	public String getVideoTitle()
-	{
-		return videoTitle;
+
+	public String getVideoId() {
+		return videoId;
 	}
+
+	public void setVideoId(String videoId) {
+		this.videoId = videoId;
+	}
+
+
 }

@@ -13,7 +13,7 @@ public final class R {
 		public static final int rippleColor = 0x7f010047;
 	}
 	public static final class drawable {
-		public static final int ic_launcher = 0x7f02003c;
+		public static final int ic_launcher = 0x7f02003e;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f06000d;
